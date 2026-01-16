@@ -7,5 +7,3 @@ from .char_state import CharState
 class CharStatus:
 	char: str
 	state: CharState
-	# count of all errors
-	# count of all changes

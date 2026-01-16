@@ -28,17 +28,15 @@ class TypingSession:
 		self.caret -= 1
 
 	
-	def append_typed_char(self, char: str, state: CharState) -> None: # Принимается STATUS
+	def append_typed_char(self, char: str, state: CharState) -> None:
 		"""Appends a typed character and it's status."""
-		self.typed.append(char) # А если 2 символа сразу?
+		self.typed.append(char)
 		char_status = CharStatus(char=char, state=state)
-		self.char_statuses[self.caret] = char_status # Почему не через caret?
-		self.forward_caret() # Возможно надо будет убрать, если будет нужен другой порядок вызова в функциях (вероятно сторонних)
+		self.char_statuses[self.caret] = char_status
+		self.forward_caret()
 
 
 	def pop_typed_char(self):
 		"""Removes the last typed character and it's status."""
-		del self.char_statuses[self.caret - 1]
 		self.typed.pop()
-		self.backward_caret() # Возможно надо будет переписать порядок вызова.
-		
+		self.backward_caret()
