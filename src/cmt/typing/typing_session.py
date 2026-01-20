@@ -40,3 +40,19 @@ class TypingSession:
 		"""Removes the last typed character and it's status."""
 		self.typed.pop()
 		self.backward_caret()
+
+
+	def reset_session(self, mode: ModeState, text: str) -> None:
+		self.mode = mode
+		self.text = text
+		self.typed.clear()
+		self.char_statuses.clear()
+		self.caret = 0
+
+
+	def new_session(self, mode: ModeState, text: str) -> None:
+		self.reset_session(mode, text)
+
+
+	def restart_session(self):
+		pass

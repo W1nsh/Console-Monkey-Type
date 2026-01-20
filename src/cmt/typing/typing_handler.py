@@ -7,19 +7,26 @@ class TypingHandler:
 		self.session = session
 
 	
-	def input_char(self, char: str) -> tuple[str, CharState]:
+	def input_char(self, char: str) -> None:
 		if len(char) == 1:
-			char_state = self.get_char_state_2(char, self.session.caret)
+			char_state = self.get_char_state(char, self.session.caret)
 			self.session.append_typed_char(char, char_state)
-			return(char, char_state)
-		return('netu nihuya', CharState.INCORRECT)
+			if (char == ' ' and 
+	   			char_state in (CharState.CORRECT, CharState.CORRECTED)):
+				self.space()
+
+
+	def space(self) -> None:
+		pass
+
 
 	def backspace(self) -> None:
-		pass # Заглушка
+		if self.session.caret > 0:
+			self.session.pop_typed_char()
 
 
 	def ctrl_backspace(self) -> None:
-		pass # Заглушка
+		pass 
 
 
 	def get_mode_class_name(self) -> str:
@@ -28,19 +35,6 @@ class TypingHandler:
 
 
 	def get_char_state(self, char: str, position: int) -> CharState:
-		if char == self.session.text[position]:
-			state = CharState.CORRECT
-		else:
-			state = CharState.INCORRECT
-		last_char = self.session.char_statuses.get(position, None)
-		if last_char:
-			if (state == CharState.CORRECT and
-	   			last_char.state in (CharState.INCORRECT, CharState.CORRECTED)):
-				state = CharState.CORRECTED
-		return state
-
-# Choose between this func (2) and func (1, up)
-	def get_char_state_2(self, char: str, position: int) -> CharState:
 		if char == self.session.text[position]:
 			last_char = self.session.char_statuses.get(position, None)
 			if last_char:
